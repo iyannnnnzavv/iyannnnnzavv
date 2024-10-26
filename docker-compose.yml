@@ -1,0 +1,261 @@
+nano docker-compose.yml
+
+Isi file docker-compose.yml:
+
+versi: '3.8'
+
+x-umum:
+
+basis data:
+
+&db-lingkungan
+
+# Jangan hapus "&db-password" dari akhir
+
+baris di bawah ini, itu penting
+
+# untuk fungsionalitas Panel.
+
+MYSQL_PASSWORD: &db-kata sandi "GANTI_SAYA"
+
+PASSWORD_ROOT_MYSQL: "GANTI_SAYA_JUGA"
+
+panel:
+
+&panel-lingkungan
+
+# URL ini harus menjadi URL proxy terbalik Anda
+
+rute ke server panel
+
+URL_APLIKASI: "https://pterodactyl.contoh.com"
+
+# Daftar zona waktu yang valid dapat ditemukan di sini: http://php.2
+
+net/manual/en/timezones.php
+
+ZONA WAKTU APLIKASI: "UTC"
+
+PENULIS_LAYANAN_APLIKASI: "noreply@example.com"
+
+TRUSTED_PROXIES: "*" # Atur ini ke IP proxy Anda
+
+# Hapus komentar pada baris di bawah ini dan atur ke nilai yang tidak kosong
+
+nilai jika Anda ingin menggunakan Let's Encrypt
+
+# untuk membuat sertifikat SSL untuk Panel.
+
+#THE_EMAIL: ""
+
+surat:
+
+&mail-lingkungan
+
+MAIL_DARI: "noreply@example.com"
+
+PENGEMUDI_EMAIL: "smtp"
+
+MAIL_HOST: "surat"
+
+PORT_SURAT: "1025"
+
+NAMA_PENGGUNA_EMAIL: ""
+
+PASSWORD_EMAIL:
+
+ENKRIPSI_EMAIL: "benar"
+[27/10, 01.42] iyan: #ZONA BAHAYA DELOW
+
+42#
+
+43 # Sisa berkas ini kemungkinan tidak perlu diubah. Harap lakukan modifikasi saja
+
+44
+
+# di bawah jika Anda mengerti apa yang Anda lakukan.
+
+45#
+
+46 layanan:
+
+47
+
+basis data:
+
+48
+
+gambar: mariadb:10.5
+
+49
+
+mulai ulang: selalu
+
+50
+
+perintah: -default-authentication-plugin=2
+
+kata sandi asli mysql
+
+51
+
+volume:
+
+52
+
+"/srv/pterodactyl/basis data:/var/lib/mysql"
+
+53
+
+lingkungan:
+
+54
+
+<<: *db-lingkungan
+
+55
+
+56
+
+57
+
+58
+
+59
+
+50
+
+51
+
+52
+
+BASIS DATA MYSQL: "panel"
+
+MYSQL_USER: "pterodactyl"
+
+cache:
+
+gambar: redis:alpine
+
+mulai ulang: selalu
+
+panel:
+
+gambar: ghcr.io/pterodactyl/panel:latest
+
+mulai ulang: selalu
+
+53
+
+port:
+
+54
+
+"80:80"
+
+55
+
+"443:443"
+
+56
+
+tautan:
+
+57
+
+basis data
+
+58
+
+cache
+
+59
+
+volume:
+
+70
+
+71
+
+72
+
+73
+
+74
+
+75
+
+76
+
+"/srv/pterodactyl/var/:/app/var/"
+
+- "/srv/pterodactyl/nginx/:/etc/nginx/http.d/"
+
+"/srv/pterodactyl/sertifikat/:/etc/letsencrypt/"
+
+- "/srv/pterodactyl/logs/:/aplikasi/penyimpanan/logs"
+
+lingkungan:
+
+<<: [*lingkungan-panel, *lingkungan-mail]
+
+DB_PASSWORD: *kata sandi db
+[27/10, 01.43] iyan: DB_PASSWORD: *kata sandi db
+
+APP_ENV: "produksi"
+
+APP_ENVIRONMENT_ONLY: "salah"
+
+CACHE_DRIVER: "redis"
+
+PENGEMUDI_SESI: "redis"
+
+ANTRIAN_DRIVER: "redis"
+
+REDIS_HOST: "tembolok"
+
+DB_HOST: "basis data"
+
+Pelabuhan DB: "3306"
+
+35
+
+jaringan:
+
+36
+
+bawaan:
+
+37 ipa:
+
+38
+
+konfigurasi:
+
+39
+
+jaringan: 172.20.0.0/16
+
+06
+
+91
+
+92
+
+93
+
+Jalanin panel:
+
+94
+
+95 docker-compose naik -d
+
+96
+
+97 Minta pengguna membuat panel:
+
+98
+
+99
+
+docker-compose jalankan -rm panel php artisan p:user:make
